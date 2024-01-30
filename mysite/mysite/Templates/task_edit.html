@@ -1,0 +1,117 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+
+</body>
+</html>
+{% extends 'base.html' %}
+
+{% block title %}Edit Task{% endblock %}
+
+{% block content %}
+    <h2>Edit Task</h2>
+    <form method="post">
+        {% csrf_token %}
+        {{ form.non_field_errors }}
+
+        <div class="fieldWrapper">
+            {% for field in form %}
+                <div class="form-group">
+                    {{ field.label_tag }}
+                    {{ field }}
+                    {% if field.errors %}
+                        <div class="text-danger">
+                            {% for error in field.errors %}
+                                {{ error }}
+                            {% endfor %}
+                        </div>
+                    {% endif %}
+                </div>
+            {% endfor %}
+        </div>
+
+        <button type="submit" class="btn btn-primary">Update</button>
+    </form>
+{% endblock %}
+path('tasks/<int:pk>/edit/', views.task_edit, name='task_edit')
+```
+
+- `task_delete.html`:
+
+```html
+<!-- Path: WHAT_TO_DO/myapp/templates/task_delete.html -->
+{% extends 'base.html' %}
+
+{% block title %}Delete Task{% endblock %}
+
+{% block content %}
+    <h2>Delete Task</h2>
+    <p>Are you sure you want to delete "{{ task.title }}"?</p>
+    <form method="post">
+        {% csrf_token %}
+        <button type="submit" class="btn btn-danger">Delete</button>
+        <a href="{% url 'task_list' %}">Cancel</a>
+    </form>
+{% endblock %}
+path('tasks/<int:pk>/delete/', views.task_delete, name='task_delete')
+```
+
+- `task_detail.html`:
+
+```html
+<!-- Path: WHAT_TO_DO/myapp/templates/task_detail.html -->
+{% extends 'base.html' %}
+
+{% block title %}Task Detail{% endblock %}
+
+{% block content %}
+    <h2>Task Detail</h2>
+    <p>Title: {{ task.title }}</p>
+    <p>Description: {{ task.description }}</p>
+    <p>Completed: {{ task.completed }}</p>
+    <p>Created: {{ task.created }}</p>
+    <p>Modified: {{ task.modified }}</p>
+    <a href="{% url 'task_list' %}">Back to Task List</a>
+{% endblock %}
+path('tasks/<int:pk>/', views.task_detail, name='task_detail')
+```
+
+- `task_list.html`:
+
+```html
+<!-- Path: WHAT_TO_DO/myapp/templates/task_list.html -->
+{% extends 'base.html' %}
+
+{% block title %}Task List{% endblock %}
+
+{% block content %}
+    <h2>Task List</h2>
+    <table>
+        <thead>
+            <tr>
+                <th>Title</th>
+                <th>Description</th>
+                <th>Completed</th>
+                <th>Created</th>
+                <th>Modified</th>
+                <th>Actions</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for task in tasks %}
+                <tr>
+                    <td>{{ task.title }}</td>
+                    <td>{{ task.description }}</td>
+                    <td>{{ task.completed }}</td>
+                    <td>{{ task.created }}</td>
+                    <td>{{ task.modified }}</td>
+                    <td>
+                        <a href="{% url 'task_detail' pk=task.pk %}">View</a>
+                        <a href="{% url 'task_edit' pk=task.pk %}">Edit</a>
+                        <a href="{% url 'task_delete' pk=task.pk %}">Delete</a>
+                    </td>
+                </tr>

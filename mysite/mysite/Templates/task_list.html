@@ -1,0 +1,39 @@
+{% extends 'base.html' %}
+{% block title %}Task List{% endblock %}
+{% block content %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Task List</title>
+</head>
+<body>
+    <h2>Task List</h2>
+    <ul>
+        {% for task in tasks %}
+            <li>{{ task.task_text }}</li>
+        {% endfor %}
+    </ul>
+
+    <!-- Link/button to create a new task -->
+    <a href="{% url 'add_task' %}">Create New Task</a>
+
+    <!-- Link/button to edit a task -->
+    <a href="{% url 'edit_task' task_id=1 %}">Edit Task</a> <!-- Replace '1' with the actual task ID -->
+
+    <!-- Link/button to delete a task -->
+    <a href="{% url 'delete_task' task_id=1 %}">Delete Task</a> <!-- Replace '1' with the actual task ID -->
+
+    <!-- Link/button to navigate to tasks with due date -->
+    <a href="{% url 'tasks_due_date' %}">Tasks with Due Date</a>
+
+    <!-- Link/button to navigate to tasks with specific priority -->
+    <a href="{% url 'tasks_priority' %}">High Priority Tasks</a>
+</body>
+</html>
+{% endblock %}
+path('', views.task_list, name= 'task_list)
+<!--  -->
+<!-- ## Delete a Task --> -->
+<!-- -->
+<!-- Let's delete the task we just created. -->

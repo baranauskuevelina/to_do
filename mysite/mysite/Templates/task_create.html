@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Create New Task</title>
+    <style>
+        /* Add your CSS styles for better appearance */
+        body {
+            font-family: Arial, sans-serif;
+            margin: 20px;
+        }
+        label {
+            font-weight: bold;
+        }
+        input[type="text"] {
+            width: 100%;
+            padding: 8px;
+            margin-bottom: 15px;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+            box-sizing: border-box;
+        }
+        button[type="submit"] {
+            background-color: #4CAF50;
+            color: white;
+            padding: 10px 20px;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+        }
+        button[type="submit"]:hover {
+            background-color: #45a049;
+        }
+    </style>
+</head>
+<body>
+    <h1>Create New Task</h1>
+    <form method="post" id="taskForm" onsubmit="return validateForm()">
+        {% csrf_token %}
+        <label for="task_text">Task Text:</label><br>
+        <input type="text" id="task_text" name="task_text" required><br>
+        <!-- Add error messages if needed -->
+        {% if form.errors %}
+            <p style="color: red;">{{ form.errors }}</p>
+        {% endif %}
+        <br>
+        <button type="submit">Create Task</button>
+    </form>
+
+    <!-- Add JavaScript for client-side validation if desired -->
+    <script>
+        function validateForm() {
+            var taskText = document.getElementById("task_text").value;
+            if (taskText.trim() === "") {
+                alert("Task text cannot be empty.");
+                return false;
+            }
+            return true;
+        }
+    </script>
+</body>
+</html>
